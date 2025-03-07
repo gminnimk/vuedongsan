@@ -1,6 +1,9 @@
 <script setup>
 import {ref} from 'vue';
 import rooms from '@/rooms.js'
+import DiscountBanner from "@/components/banner/DiscountBanner.vue";
+import RoomModal from "@/components/modal/RoomModal.vue";
+import RoomCard from "@/components/card/RoomCard.vue";
 
 const menus = ['Home', 'Shop', 'About'];
 
@@ -20,27 +23,28 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="black-bg" v-if="isModalOpen">
-    <div class="white-bg">
-      <img :src="rooms[selectedIndex].image" style="width:300px">
-      <h4> {{ rooms[selectedIndex].title }} </h4>
-      <p> {{ rooms[selectedIndex].content }} </p>
-      <button @click="closeModal">닫기</button>
-    </div>
-  </div>
+
+  <RoomModal
+      :rooms="rooms"
+      :isModalOpen="isModalOpen"
+      :selected-index="selectedIndex"
+      @closeModal="closeModal"
+  />
 
   <div class="menu">
     <a v-for="menu in menus" :key="menu">
       {{ menu }}
     </a>
   </div>
+  <RoomCard
+      :rooms="rooms"
+      :isModalOpen="isModalOpen"
+      :selected-index="selectedIndex"
+      @openModal="openModal"
+  />
 
-  <div v-for="(room,i) in rooms" :key="i" class="room-container">
-    <img :src="room.image" style="width:500px">
-    <h4 @click="openModal(i)"> {{ room.title }} </h4>
-    <p> {{ room.price }} </p>
-    <p> {{ room.content }} </p>
-  </div>
+  <DiscountBanner/>
+
 </template>
 
 <style scoped>
@@ -65,25 +69,6 @@ div {
 }
 
 .room-container {
-  text-align: center;
-}
-
-.black-bg {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.white-bg {
-  width: 600px;
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
   text-align: center;
 }
 
