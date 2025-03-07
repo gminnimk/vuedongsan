@@ -1,47 +1,51 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import {ref} from 'vue';
+
+const menus = ['Home', 'Shop', 'About'];
+
+const oneRooms = [
+  {title: '서울특별시', price: '60만원', reportCount: ref(0)},
+  {title: '강원특별자치도', price: '60만원', reportCount: ref(0)},
+  {title: '부산광역시', price: '60만원', reportCount: ref(0)}
+]
+
+const increase = (i) => {
+  oneRooms[i].reportCount.value += 1;
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+  <div class="menu">
+    <a v-for="menu in menus" :key="menu">
+      {{ menu }}
+    </a>
+  </div>
 
-  <main>
-    <TheWelcome />
-  </main>
+  <div v-for="(room,i) in oneRooms" :key="i" class="room-container">
+    <h4>{{ room.title }}</h4>
+    <p> {{ room.price }}</p>
+    <button @click="increase(i)">허위매물신고</button>
+    <span>신고수 : {{ room.reportCount }}</span>
+  </div>
+
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.menu {
+  background: darkslateblue;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.menu a {
+  color: white;
+  padding: 10px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.room-container {
+  text-align: center;
 }
 </style>
