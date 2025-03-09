@@ -1,11 +1,15 @@
 <script setup>
 import {ref} from 'vue';
-import rooms from '@/rooms.js'
+import roomsData from '@/rooms.js'
 import DiscountBanner from "@/components/banner/DiscountBanner.vue";
 import RoomModal from "@/components/modal/RoomModal.vue";
 import RoomCard from "@/components/card/RoomCard.vue";
 
 const menus = ['Home', 'Shop', 'About'];
+
+const rooms = ref([...roomsData]);
+
+const originalRooms = [...roomsData];
 
 const isModalOpen = ref(false);
 
@@ -18,6 +22,16 @@ const openModal = (i) => {
 
 const closeModal = () => {
   isModalOpen.value = false;
+}
+
+const priceSort = () => {
+  rooms.value.sort((a, b) => {
+    return a.price - b.price;
+  })
+}
+
+const sortBack = () => {
+  rooms.value = [...originalRooms];
 }
 
 </script>
@@ -35,6 +49,10 @@ const closeModal = () => {
     <a v-for="menu in menus" :key="menu">
       {{ menu }}
     </a>
+  </div>
+  <div class="btn-container">
+    <button @click="priceSort">가격 순 정렬</button>
+    <button @click="sortBack">되돌리기</button>
   </div>
   <RoomCard
       :rooms="rooms"
@@ -57,19 +75,40 @@ div {
 }
 
 .menu {
+  height: 70px;
   background: darkslateblue;
   padding: 15px;
   border-radius: 5px;
   text-align: center;
+  transform: translateY(-50px);
+}
+
+.menu:hover {
+  transform: translateY(2px);
+  transition-duration: 0.3s;
 }
 
 .menu a {
   color: white;
   padding: 10px;
+  font-size: 20px;
 }
 
-.room-container {
+.btn-container {
   text-align: center;
+  margin: 30px;
+
+  button {
+    margin: 10px;
+    background-color: darkcyan;
+    border-radius: 5px;
+    color: white;
+  }
+
+  button:hover {
+    transform: translateY(5px);
+    transition-duration: 0.2s;
+  }
 }
 
 button {
