@@ -40,17 +40,19 @@ watch(month, (newValue) => {
 </script>
 
 <template>
-  <div class="black-bg" v-if="isModalOpen">
-    <div class="white-bg">
-      <img :src="rooms[selectedIndex].image" style="width:300px">
-      <h4> {{ rooms[selectedIndex].title }} </h4>
-      <p> {{ rooms[selectedIndex].content }} </p>
+  <Transition name="fade">
+    <div class="black-bg" v-if="isModalOpen">
+      <div class="white-bg">
+        <img :src="rooms[selectedIndex].image" style="width:300px">
+        <h4> {{ rooms[selectedIndex].title }} </h4>
+        <p> {{ rooms[selectedIndex].content }} </p>
 
-      <input v-model.number="month" placeholder="월 입력" class="month">
-      <p>{{ month }}개월 선택함: {{ rooms[selectedIndex].price * month }}</p>
-      <button @click="closeModal" class="close-btn">닫기</button>
+        <input v-model.number="month" placeholder="월 입력" class="month">
+        <p>{{ month }}개월 선택함: {{ rooms[selectedIndex].price * month }}</p>
+        <button @click="closeModal" class="close-btn">닫기</button>
+      </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -77,6 +79,36 @@ watch(month, (newValue) => {
   display: block;
   margin: auto;
   margin-bottom: 20px;
+}
+
+/* 등장 애니메이션 */
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 퇴장 애니메이션 */
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 
 </style>
