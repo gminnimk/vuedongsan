@@ -35,4 +35,8 @@ const openModal = (i) => {
 
 <style scoped>
 
+.room-container {
+  text-align: center;
+}
+
 </style>
