@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import roomsData from '@/rooms.js'
 import DiscountBanner from "@/components/banner/DiscountBanner.vue";
 import RoomModal from "@/components/modal/RoomModal.vue";
@@ -8,7 +8,6 @@ import RoomCard from "@/components/card/RoomCard.vue";
 const menus = ['Home', 'Shop', 'About'];
 
 const rooms = ref([...roomsData]);
-
 const originalRooms = [...roomsData];
 
 const isModalOpen = ref(false);
@@ -34,6 +33,14 @@ const sortBack = () => {
   rooms.value = [...originalRooms];
 }
 
+const showDiscount = ref(true);
+
+onMounted(() => {
+  setTimeout(() => {
+    showDiscount.value = false
+  }, 2000);
+});
+
 </script>
 
 <template>
@@ -50,6 +57,8 @@ const sortBack = () => {
       {{ menu }}
     </a>
   </div>
+  <DiscountBanner v-if="showDiscount" />
+
   <div class="btn-container">
     <button @click="priceSort">가격 순 정렬</button>
     <button @click="sortBack">되돌리기</button>
@@ -60,8 +69,6 @@ const sortBack = () => {
       :selected-index="selectedIndex"
       @openModal="openModal"
   />
-
-  <DiscountBanner/>
 
 </template>
 
